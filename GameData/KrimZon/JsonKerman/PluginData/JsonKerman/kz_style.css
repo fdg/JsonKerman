@@ -1,0 +1,170 @@
+/* Imports */
+
+@import url(http://fonts.googleapis.com/css?family=VT323);
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,500,600);
+@import url(http://fonts.googleapis.com/css?family=Abel);
+
+/* General element styles */
+
+body {
+	background: #0E2732;
+	color: #5691AA;
+	font-family: "Dosis", "Deja Vu Sans", "Verdana", sans-serif;
+	font-weight: 600;
+	font-size: 18px;
+}
+
+/* Layout classes & ids */
+
+#mainwrap {
+	margin: 20px;
+}
+
+.content-main {
+	width: 75%;
+	float: left;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 20px 0 0;
+	margin: 20px 0;
+}
+.content-sidebar {
+	width: 25%;
+	float: right;
+	padding: 0;
+	margin: 20px 0;
+}
+
+/* Status Bar */
+
+#statusbar {
+	padding: 10px;
+	background: #030F14;
+	margin-bottom: 20px;
+}
+
+#statusbar .connection,
+#statusbar .service {
+	float: right;
+	margin: 0 0 0 8px;
+}
+#statusbar .up,
+#statusbar .down {
+	padding: 2px 4px;
+	color: #030F14;
+	border-radius: 2px;
+}
+#statusbar .up {
+	background: #4a4;
+}
+#statusbar .down {
+	background: #a44;
+}
+
+#statusbar .date {
+}
+
+#statusbar .apptitle {
+	float: right;
+	color: #1F4352;
+	font-weight: 600;
+}
+
+/* Scene Heading */
+
+#scenetitle {
+	background: #3A677B;
+	color: #0E2732;
+	padding: 10px;
+}
+
+#scenetitle h1 {
+	font-size: 150%;
+	font-weight: 400;
+}
+#scenetitle h1 em {
+	font-weight: 600;
+	color: #030F14;
+}
+
+#scenetitle .right {
+	float: right;
+	line-height: 150%;
+	margin-left: 20px;
+}
+
+/* Orbit Map */
+
+.orbit-map {
+	/* TODO: This would resize to always be 2x1 filling at 100% width */
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	height: 500px;
+	border: 2px solid #3A677B;
+	color: #3A677B;
+	padding: 10px;
+}
+
+/* Sidebar Generic */
+
+.sb-box {
+	background: #030F14;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.sb-box h2 {
+	padding: 4px;
+	background: #0E2732;
+	margin-bottom: 10px;
+}
+
+/* Orbit Info */
+
+.orbit-numbers {
+}
+
+/* Crew Roster */
+
+.crew-roster {
+	position: relative;
+}
+.crew-roster .crew-count {
+	padding: 4px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.crew-roster li {
+	border-bottom: 1px dashed #0E2732;
+	margin-top: 4px;
+	padding-bottom: 4px;
+}
+.crew-roster li:empty {
+	color: #0E2732;
+	height: 1em;
+}
+.crew-roster li:empty:before {
+	content: "unoccupied";
+}
+/* Message Overlay */
+
+#overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding-top: 180px;
+}
+
+#overlay .shadowbox {
+	width: 30%;
+	margin: 0 auto;
+	padding: 20px;
+	text-align: center;
+	background: #3A677B;
+	border: 1px solid #030F14;
+	box-shadow: 10px 10px #030F14;
+	color: #030F14;
+}

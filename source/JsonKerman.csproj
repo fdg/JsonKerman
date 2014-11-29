@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6DF42141-B3B8-49D9-B5F6-3C2832F278B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>JsonKerman</RootNamespace>
+    <AssemblyName>JsonKerman</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\GameData\KrimZon\JsonKerman</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\Apps\KerbalSpaceProgram\KSP_025\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\Apps\KerbalSpaceProgram\KSP_025\KSP_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JsonKerman.cs" />
+    <Compile Include="SimpleWebServer.cs" />
+    <Compile Include="GameData.cs" />
+    <Compile Include="JsonBuilder.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\ajaks.js">
+      <Link>Web\ajaks.js</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\crewlist.js">
+      <Link>Web\crewlist.js</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\index.html">
+      <Link>Web\index.html</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\kerbal.js">
+      <Link>Web\kerbal.js</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\kz_style.css">
+      <Link>Web\kz_style.css</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\orbitmap.js">
+      <Link>Web\orbitmap.js</Link>
+    </None>
+    <None Include="..\GameData\KrimZon\JsonKerman\PluginData\JsonKerman\reset.css">
+      <Link>Web\reset.css</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\" />
+  </ItemGroup>
+</Project>

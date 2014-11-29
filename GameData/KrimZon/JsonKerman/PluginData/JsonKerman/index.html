@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KrimZon JsonKerman</title>
+	<link rel="stylesheet" type="text/css" href="reset.css"/>
+	<link rel="stylesheet" type="text/css" href="kz_style.css"/>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="ajaks.js"></script>
+	<script type="text/javascript" src="kerbal.js"></script>
+	<script type="text/javascript" src="orbitmap.js"></script>
+	<script type="text/javascript" src="crewlist.js"></script>
+	<script type="text/javascript">
+		var allScenes = '.scLoading, .scMainMenu, .scSettings, .scSpaceCenter, .scVehicleAssemblyBuilding, .scSpaceplaneHangar, .scTrackingStation, .scInFlight';
+		$(document).ready(function(){
+			$('.orbit-map').orbitmap();
+			$('.crew-list').crewlist();
+			$(allScenes).hide();
+
+			kerbal.on('dataUpdate', function(){
+				var scene = kerbal.getCurrentGameSceneName();
+
+				$(allScenes).hide();
+				var sceneClass = '.sc' + scene.replace(' ', '');
+				$(sceneClass).show();
+
+				// TODO: If we can get the time, format and update it, otherwise show something else there.
+				var universalTime = kerbal.tryGetValue('universalTime', -1);
+				if (universalTime > 0) {
+					$('#statusbar .date').html(kerbal.formatDate(universalTime));
+				} else {
+					$('#statusbar .date').html('Kerbal Space Program');
+				}
+
+				if (scene == 'In Flight') {
+					var vesselName = kerbal.tryGetValue('flightGlobals.activeVessel.vesselName', 'unknown'),
+						altitude = kerbal.tryGetValue('flightGlobals.activeVessel.altitude', 0),
+						latitude = kerbal.tryGetValue('flightGlobals.activeVessel.latitude', 0),
+						longitude = kerbal.tryGetValue('flightGlobals.activeVessel.longitude', 0),
+						body = kerbal.tryGetValue('flightGlobals.activeVessel.celestialBody.name', 'nowhere'),
+						missionTime = kerbal.tryGetValue('flightGlobals.activeVessel.missionTime', 0),
+						crewCapacity = kerbal.tryGetValue('flightGlobals.activeVessel.crewCapacity', 0),
+						crewCount = kerbal.tryGetValue('flightGlobals.activeVessel.crewCount', 0),
+						crewData = kerbal.tryGetValue('flightGlobals.activeVessel.crew', {});
+
+					$('.crew-count').html('[ ' + crewCount + ' / ' + crewCapacity + ']');
+					$('.crew-list').crewlist('setCapacity', crewCapacity)
+						.crewlist('setData', crewData);
+
+					$('.flightAlt').html(kerbal.formatNumber(altitude.toFixed(0)) + 'm');
+					$('.flightBody').html(body);
+					$('.flightMET').html(kerbal.formatTime(missionTime));
+
+					$('.orbit-map').html(latitude.toFixed(3) + 'N, ' + longitude.toFixed(3) + 'E');
+					// TODO: We can update the orbit map with the current lat/long
+
+					scene = 'Flying <em>' + vesselName + '<em>';
+				}
+
+				$('#scenetitle h1').html(scene);
+			});
+			kerbal.on('connectionUpdate', function(connection){
+				var conn = $('#statusbar .connection span');
+				if (connection) {
+					conn.removeClass('down');
+					conn.addClass('up');
+				} else {
+					conn.removeClass('up');
+					conn.addClass('down');
+				}
+			});
+			kerbal.on('serviceUpdate', function(service){
+				var srv = $('#statusbar .service span');
+				if (service) {
+					srv.removeClass('down');
+					srv.addClass('up');
+					$('#overlay').hide();
+				} else {
+					srv.removeClass('up');
+					srv.addClass('down');
+					$('#overlay').show();
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="mainwrap">
+		<div id="statusbar">
+			<div class="service"><span class="down">S</span></div>
+			<div class="connection"><span class="down">C</span></div>
+			<div class="apptitle">Json Kerman</div>
+			<div class="date">Kerbal Space Program</div>
+		</div>
+
+		<div id="scenetitle">
+			<div class="scInFlight right"><span class="flightAlt">102,433m</span> over <span class="flightBody">Kerbin</span></div>
+			<div class="scInFlight right">MET <span class="flightMET">2h 43m 17s</div>
+			<h1>Initializing</h1>
+		</div>
+
+		<div id="mainview">
+			<div class="scInFlight" id="flight">
+				<div class="content-main">
+					<div class="orbit-map">Kerbin (Note: map and orbit lines not implemented)</div>
+				</div>
+				<div class="content-sidebar">
+					<div class="sb-box crew-roster">
+						<h2>Crew</h2>
+						<p class="crew-count">[ 0 / 0 ]</p>
+						<ul class="crew-list">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="overlay" style="display: none;">
+		<div class="shadowbox">Could not connect to KSP</div>
+	</div>
+</body>
+</html>

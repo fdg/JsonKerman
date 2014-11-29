@@ -1,0 +1,12 @@
+# Ignore generated files
+JsonKerman.userprefs
+
+# Ignore debug binaries
+source/bin/*
+
+# Ignore release binaries in the package path, but not the web stuff.
+GameData/KrimZon/JsonKerman/*
+!GameData/KrimZon/JsonKerman/PluginData/*
+
+# Ignore the built package
+JsonKerman.zip
