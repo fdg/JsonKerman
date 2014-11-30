@@ -184,5 +184,8 @@ Global
 		$27.NamingStyle = PascalCase
 		$27.IncludeInstanceMembers = True
 		$27.IncludeStaticEntities = True
+		$0.TextStylePolicy = $29
+		$29.inheritsSet = null
+		$29.scope = text/css
 	EndGlobalSection
 EndGlobal
