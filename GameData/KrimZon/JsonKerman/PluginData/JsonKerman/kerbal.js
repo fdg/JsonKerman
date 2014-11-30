@@ -25,11 +25,16 @@ SOFTWARE.
 /**
  * A layer over the top of Advanced Javascript And Kerbal Stuff to provide a
  * more convenient interface for game data.
+ *
+ * @todo: Detect more events: gameChange, activeVesselChange, currentBodyChange.
  */
 function Kerbal() {
 	var self = this,
 		ajaks = new AJAKS(),
-		callbacks = {};
+		callbacks = {},
+		currentScene = '',
+		activeVesselId = '',
+		activeVesselBodyIndex = -1;
 
 	/**
 	 * Expose the raw data anyway.
@@ -55,6 +60,26 @@ function Kerbal() {
 			case 'pFlight2':        return 'In Flight';
 		}
 		return 'Unknown';
+	};
+
+	/**
+	 * Returns true if we're playing a game (not in the menus or splash).
+	 */
+	this.isInGame = function() {
+		switch (this.data['currentScene']) {
+			case 'kspsplashscreen':
+			case 'kspMainMenu':
+			case 'kspsettings':
+				return false;
+		}
+		return true;
+	};
+
+	/**
+	 * Returns true if we're in flight.
+	 */
+	this.isInFlight = function() {
+		return this.data.isFlight;
 	};
 
 	/**
@@ -194,22 +219,44 @@ function Kerbal() {
 	};
 
 	function onDataUpdate() {
-		// TODO: Scan for other event types.
 		self.data = ajaks.data;
+
+		var newScene = self.tryGetValue('currentScene', '');
+		if (newScene != currentScene) {
+			currentScene = newScene;
+			callCallback('sceneChange', newScene);
+		}
+
+		var newVesselId = self.tryGetValue('flightGlobals.activeVessel.id', '');
+		if (newVesselId != activeVesselId) {
+			activeVesselId = newVesselId;
+			callCallback('activeVesselChange', self.tryGetValue('flightGlobals.activeVessel', {}));
+		}
+
+		var newBody = self.tryGetValue('flightGlobals.activeVessel.celestialBody.flightsGlobalIndex', -1);
+		if (newBody != activeVesselBodyIndex) {
+			activeVesselBodyIndex = newBody;
+			callCallback('currentBodyChange', self.tryGetValue('flightGlobals.activeVessel.celestialBody', {}));
+		}
+
 		callCallback('dataUpdate');
 	}
+
 	function onServiceUp() {
 		callCallback('serviceUp');
 		callCallback('serviceUpdate', true);
 	}
+
 	function onServiceDown() {
 		callCallback('serviceDown');
 		callCallback('serviceUpdate', false);
 	}
+
 	function onConnectionUp() {
 		callCallback('connectionUp');
 		callCallback('connectionUpdate', true);
 	}
+
 	function onConnectionDown() {
 		callCallback('connectionDown');
 		callCallback('connectionUpdate', false);

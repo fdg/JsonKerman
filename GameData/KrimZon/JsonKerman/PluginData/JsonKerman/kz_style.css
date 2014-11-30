@@ -104,6 +104,22 @@ body {
 	border: 2px solid #3A677B;
 	color: #3A677B;
 	padding: 10px;
+	overflow: hidden;
+}
+
+.orbit-map .pin {
+	background-color: #080;
+}
+.orbit-map .label {
+	color: #080;
+	font-size: 9px;
+	white-space: nowrap;
+}
+.orbit-map .pin.currentCraft {
+	background-color: #fff;
+}
+.orbit-map .label.currentCraft {
+	color: #fff;
 }
 
 /* Sidebar Generic */

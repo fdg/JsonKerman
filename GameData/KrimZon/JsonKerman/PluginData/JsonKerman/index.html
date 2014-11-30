@@ -26,7 +26,7 @@
 
 				// TODO: If we can get the time, format and update it, otherwise show something else there.
 				var universalTime = kerbal.tryGetValue('universalTime', -1);
-				if (universalTime > 0) {
+				if (universalTime > 0 && kerbal.isInGame()) {
 					$('#statusbar .date').html(kerbal.formatDate(universalTime));
 				} else {
 					$('#statusbar .date').html('Kerbal Space Program');
@@ -41,7 +41,8 @@
 						missionTime = kerbal.tryGetValue('flightGlobals.activeVessel.missionTime', 0),
 						crewCapacity = kerbal.tryGetValue('flightGlobals.activeVessel.crewCapacity', 0),
 						crewCount = kerbal.tryGetValue('flightGlobals.activeVessel.crewCount', 0),
-						crewData = kerbal.tryGetValue('flightGlobals.activeVessel.crew', {});
+						crewData = kerbal.tryGetValue('flightGlobals.activeVessel.crew', {}),
+						otherVessels = kerbal.tryGetValue('flightGlobals.otherVessels', {});
 
 					$('.crew-count').html('[ ' + crewCount + ' / ' + crewCapacity + ']');
 					$('.crew-list').crewlist('setCapacity', crewCapacity)
@@ -51,14 +52,39 @@
 					$('.flightBody').html(body);
 					$('.flightMET').html(kerbal.formatTime(missionTime));
 
-					$('.orbit-map').html(latitude.toFixed(3) + 'N, ' + longitude.toFixed(3) + 'E');
-					// TODO: We can update the orbit map with the current lat/long
+					//$('.orbit-map').html(latitude.toFixed(3) + 'N, ' + longitude.toFixed(3) + 'E');
+					$('.orbit-map').orbitmap('updateCraft', vesselName, {
+						lat: latitude,
+						lng: longitude,
+						cssClass: 'currentCraft'
+					});
+					for (var id in otherVessels) {
+						if (otherVessels[id].celestialBody.name === body && otherVessels[id].vesselType != 'Debris') {
+							$('.orbit-map').orbitmap('updateCraft', otherVessels[id].vesselName, {
+								lat: otherVessels[id].latitude,
+								lng: otherVessels[id].longitude
+							});
+						}
+ 					};
 
 					scene = 'Flying <em>' + vesselName + '<em>';
 				}
 
 				$('#scenetitle h1').html(scene);
 			});
+
+			kerbal.on('activeVesselChange', function(vessel){
+				$('.orbit-map').orbitmap('clearAllCraft');
+			});
+
+			kerbal.on('currentBodyChange', function(body){
+				$('.orbit-map').orbitmap('clearAllCraft');
+			});
+
+			kerbal.on('sceneChange', function(scene){
+				// TODO: Do something here
+			});
+
 			kerbal.on('connectionUpdate', function(connection){
 				var conn = $('#statusbar .connection span');
 				if (connection) {
@@ -69,6 +95,7 @@
 					conn.addClass('down');
 				}
 			});
+
 			kerbal.on('serviceUpdate', function(service){
 				var srv = $('#statusbar .service span');
 				if (service) {
@@ -102,7 +129,9 @@
 		<div id="mainview">
 			<div class="scInFlight" id="flight">
 				<div class="content-main">
-					<div class="orbit-map">Kerbin (Note: map and orbit lines not implemented)</div>
+					<div class="orbit-map">
+						<div class="body-label">Kerbin (Note: map and orbit lines not implemented)</div>
+					</div>
 				</div>
 				<div class="content-sidebar">
 					<div class="sb-box crew-roster">

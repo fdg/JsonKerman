@@ -37,6 +37,7 @@ namespace JsonKerman
 		private enum BuildType
 		{
 			BUILD_FULL,
+			BUILD_PARTIAL,
 			BUILD_INDEX
 		};
 
@@ -57,14 +58,14 @@ namespace JsonKerman
 				json.AddValue("universalTime", HighLogic.CurrentGame.UniversalTime);
 			}
 
+			// TODO: If we're in a game at all, display our game data like cash, reputation, contracts etc.
+
 			if (HighLogic.LoadedSceneIsFlight)
 			{
 				json.StartObject("flightGlobals");
 				BuildFlightGlobals(json);
 				json.EndObject();
 			}
-
-			// TODO: Objects for other data.
 
 			return json.ToString();
 		}
@@ -79,69 +80,85 @@ namespace JsonKerman
 			BuildVessel(json, FlightGlobals.ActiveVessel);
 			json.EndObject();
 
-			// TODO: We can get info on all celestial bodies.
-		}
-
-		private void BuildVessel(JsonBuilder json, Vessel vessel)
-		{
-			json.AddValue("vesselName", vessel.vesselName);
-			json.AddValue("vesselType", vessel.vesselType.ToString());
-			json.AddValue("isCommandable", vessel.isCommandable);
-
-			json.AddValue("missionTime", vessel.missionTime);
-
-			json.AddValue("landedAt", vessel.landedAt);
-			json.AddValue("landed", vessel.Landed);
-			json.AddValue("isEVA", vessel.isEVA);
-
-			json.AddValue("crewCapacity", vessel.GetCrewCapacity());
-			json.AddValue("crewCount", vessel.GetCrewCount());
-
-			json.StartObject("crew");
-			foreach (ProtoCrewMember crewMember in vessel.GetVesselCrew())
+			json.StartObject("otherVessels");
+			foreach (Vessel vessel in FlightGlobals.Vessels)
 			{
-				json.StartObject(crewMember.name);
-				json.AddValue("name", crewMember.name);
-				json.AddValue("courage", crewMember.courage);
-				json.AddValue("stupidity", crewMember.stupidity);
-				json.AddValue("isBadass", crewMember.isBadass);
+				if (vessel.isActiveVessel)
+				{
+					continue;
+				}
+				// TODO: Maybe request full data either by specifying their id on the query string, or a parameter to give full data of all vessels.
+				json.StartObject(vessel.id.ToString());
+				BuildVessel(json, vessel, BuildType.BUILD_PARTIAL);
 				json.EndObject();
 			}
 			json.EndObject();
 
-			json.AddValue("currentStage", vessel.currentStage);
-			json.AddValue("centerOfMass", vessel.CoM);
+			// TODO: We can get info on all celestial bodies.
+		}
 
-			json.AddValue("verticalSpeed", vessel.verticalSpeed);
-			json.AddValue("surfaceSpeed", vessel.srfSpeed);
-			json.AddValue("horizontalSurfaceSpeed", vessel.horizontalSrfSpeed);
-			json.AddValue("staticPressure", vessel.staticPressure);
-			json.AddValue("atmosphericDensity", vessel.atmDensity);
+		private void BuildVessel(JsonBuilder json, Vessel vessel, BuildType buildType = BuildType.BUILD_FULL)
+		{
+			json.AddValue("vesselName", vessel.vesselName);
+			json.AddValue("vesselType", vessel.vesselType.ToString());
 
 			json.AddValue("longitude", vessel.longitude);
 			json.AddValue("latitude", vessel.latitude);
 			json.AddValue("altitude", vessel.altitude);
 
-			json.AddValue("upAxis", vessel.upAxis);
+			if (buildType == BuildType.BUILD_FULL)
+			{
+				json.AddValue("isCommandable", vessel.isCommandable);
+				json.AddValue("missionTime", vessel.missionTime);
+				json.AddValue("landedAt", vessel.landedAt);
+				json.AddValue("landed", vessel.Landed);
+				json.AddValue("isEVA", vessel.isEVA);
 
-			json.AddValue("acceleration", vessel.acceleration);
-			json.AddValue("geeForce", vessel.geeForce);
-			json.AddValue("angularVelocity", vessel.angularVelocity);
-			json.AddValue("specificAcceleration", vessel.specificAcceleration);
+				json.AddValue("crewCapacity", vessel.GetCrewCapacity());
+				json.AddValue("crewCount", vessel.GetCrewCount());
 
-			json.AddValue("orbitVelocity", vessel.obt_velocity);
-			json.AddValue("surfaceVelocity", vessel.srf_velocity);
+				json.StartObject("crew");
+				foreach (ProtoCrewMember crewMember in vessel.GetVesselCrew())
+				{
+					json.StartObject(crewMember.name);
+					json.AddValue("name", crewMember.name);
+					json.AddValue("courage", crewMember.courage);
+					json.AddValue("stupidity", crewMember.stupidity);
+					json.AddValue("isBadass", crewMember.isBadass);
+					json.EndObject();
+				}
+				json.EndObject();
 
-			json.AddValue("heightFromSurface", vessel.GetHeightFromSurface());
-			json.AddValue("heightFromTerrain", vessel.GetHeightFromTerrain());
-			json.AddValue("terrainNormal", vessel.terrainNormal);
-			json.AddValue("terrainAltitude", vessel.terrainAltitude);
+				json.AddValue("currentStage", vessel.currentStage);
+				json.AddValue("centerOfMass", vessel.CoM);
 
-			json.AddValue("id", vessel.id.ToString());
+				json.AddValue("verticalSpeed", vessel.verticalSpeed);
+				json.AddValue("surfaceSpeed", vessel.srfSpeed);
+				json.AddValue("horizontalSurfaceSpeed", vessel.horizontalSrfSpeed);
+				json.AddValue("staticPressure", vessel.staticPressure);
+				json.AddValue("atmosphericDensity", vessel.atmDensity);
 
-			json.StartObject("orbit");
-			BuildOrbit(json, vessel.orbit);
-			json.EndObject();
+				json.AddValue("upAxis", vessel.upAxis);
+
+				json.AddValue("acceleration", vessel.acceleration);
+				json.AddValue("geeForce", vessel.geeForce);
+				json.AddValue("angularVelocity", vessel.angularVelocity);
+				json.AddValue("specificAcceleration", vessel.specificAcceleration);
+
+				json.AddValue("orbitVelocity", vessel.obt_velocity);
+				json.AddValue("surfaceVelocity", vessel.srf_velocity);
+
+				json.AddValue("heightFromSurface", vessel.GetHeightFromSurface());
+				json.AddValue("heightFromTerrain", vessel.GetHeightFromTerrain());
+				json.AddValue("terrainNormal", vessel.terrainNormal);
+				json.AddValue("terrainAltitude", vessel.terrainAltitude);
+
+				json.AddValue("id", vessel.id.ToString());
+
+				json.StartObject("orbit");
+				BuildOrbit(json, vessel.orbit);
+				json.EndObject();
+			}
 
 			json.StartObject("celestialBody");
 			BuildCelestialBody(json, vessel.mainBody, BuildType.BUILD_INDEX);
