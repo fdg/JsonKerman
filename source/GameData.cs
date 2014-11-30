@@ -56,9 +56,11 @@ namespace JsonKerman
 			{
 				// TODO: Also check that we're not in a game and hide this.
 				json.AddValue("universalTime", HighLogic.CurrentGame.UniversalTime);
-			}
 
-			// TODO: If we're in a game at all, display our game data like cash, reputation, contracts etc.
+				json.StartObject("game");
+				BuildGame(json, HighLogic.CurrentGame);
+				json.EndObject();
+			}
 
 			if (HighLogic.LoadedSceneIsFlight)
 			{
@@ -68,6 +70,22 @@ namespace JsonKerman
 			}
 
 			return json.ToString();
+		}
+
+		private void BuildGame(JsonBuilder json, Game game)
+		{
+			json.AddValue("mode", game.Mode.ToString());
+			json.AddValue("status", game.Status.ToString());
+			json.AddValue("title", game.Title);
+			json.AddValue("description", game.Description);
+			json.AddValue("flagUrl", game.flagURL);
+			json.AddValue("linkUrl", game.linkURL);
+			json.AddValue("linkCaption", game.linkCaption);
+			json.AddValue("startScene", game.startScene.ToString());
+
+			// TODO: We can list the crew roster.
+
+			// Not sure what context protovessels is.
 		}
 
 		private void BuildFlightGlobals(JsonBuilder json)
