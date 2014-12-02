@@ -78,7 +78,15 @@
 			});
 
 			kerbal.on('currentBodyChange', function(body){
-				$('.orbit-map').orbitmap('clearAllCraft');
+				var bodyName = kerbal.tryGetValue('flightGlobals.activeVessel.celestialBody.name', ''),
+				    map = $('.orbit-map');
+				map.orbitmap('clearAllCraft');
+				if (bodyName === 'Kerbin') {
+					map.orbitmap('setMapImage', 'kerbin.svg');
+				} else {
+					map.orbitmap('setMapImage');
+				}
+				$('.orbit-map .body-label').html(bodyName);
 			});
 
 			kerbal.on('sceneChange', function(scene){
@@ -108,6 +116,8 @@
 					$('#overlay').show();
 				}
 			});
+
+			kerbal.start();
 		});
 	</script>
 </head>
@@ -130,7 +140,7 @@
 			<div class="scInFlight" id="flight">
 				<div class="content-main">
 					<div class="orbit-map">
-						<div class="body-label">Kerbin (Note: map and orbit lines not implemented)</div>
+						<div class="body-label"></div>
 					</div>
 				</div>
 				<div class="content-sidebar">

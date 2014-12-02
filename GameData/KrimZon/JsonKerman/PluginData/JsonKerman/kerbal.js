@@ -262,13 +262,15 @@ function Kerbal() {
 		callCallback('connectionUpdate', false);
 	}
 
-	ajaks.start({
-		dataUpdate: onDataUpdate,
-		serviceUp: onServiceUp,
-		serviceDown: onServiceDown,
-		connectionUp: onConnectionUp,
-		connectionDown: onConnectionDown
-	});
+	this.start = function() {
+		ajaks.start({
+			dataUpdate: onDataUpdate,
+			serviceUp: onServiceUp,
+			serviceDown: onServiceDown,
+			connectionUp: onConnectionUp,
+			connectionDown: onConnectionDown
+		});
+	};
 }
 
 var kerbal = new Kerbal();

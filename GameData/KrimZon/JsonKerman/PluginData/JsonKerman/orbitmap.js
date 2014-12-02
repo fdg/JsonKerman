@@ -149,10 +149,14 @@ SOFTWARE.
 		 * The image needs to have an aspect ratio of 2:1.
 		 */
 		setMapImage: function(image) {
-			this.element.css({
-				'background-image': 'url(' + image + ')',
-				'background-size': 'cover'
-			});
+			if (typeof image === 'undefined') {
+				this.element.css({'background-image': 'none'});
+			} else {
+				this.element.css({
+					'background-image': 'url(' + image + ')',
+					'background-size': 'cover'
+				});
+			}
 		}
 
 	});

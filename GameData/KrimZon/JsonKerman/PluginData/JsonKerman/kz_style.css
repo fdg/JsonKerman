@@ -103,7 +103,6 @@ body {
 	height: 500px;
 	border: 2px solid #3A677B;
 	color: #3A677B;
-	padding: 10px;
 	overflow: hidden;
 }
 
@@ -120,6 +119,9 @@ body {
 }
 .orbit-map .label.currentCraft {
 	color: #fff;
+}
+.orbit-map .body-label {
+	margin: 10px 0 0 10px;
 }
 
 /* Sidebar Generic */

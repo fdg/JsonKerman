@@ -5,8 +5,8 @@ JsonKerman.userprefs
 source/bin/*
 
 # Ignore release binaries in the package path, but not the web stuff.
-GameData/KrimZon/JsonKerman/*
-!GameData/KrimZon/JsonKerman/PluginData/*
+GameData/KrimZon/JsonKerman/*.dll
+GameData/KrimZon/JsonKerman/*.mdb
 
 # Ignore the built package
 JsonKerman.zip

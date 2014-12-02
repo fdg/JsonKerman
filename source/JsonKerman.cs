@@ -194,6 +194,36 @@ namespace JsonKerman
 			return response;
 		}
 
+		// Note: This was going to be for retrieving textures of the surface of the current body.
+		// Might not do this after all.
+		private bool CheckCacheFile(string path) {
+			if (KSP.IO.File.Exists<JsonKerman>(path)) {
+				return true;
+			}
+
+			string filename = Path.GetFileNameWithoutExtension(path);
+			List<string> parts = filename.Split("-");
+			if (parts.Count < 1) {
+				return false;
+			}
+			if (parts[0] == 'celestialbody') {
+				if (parts.Count < 2) {
+					return false;
+				}
+				string body = parts[1];
+
+
+				// TODO: Also return celestial body textures. Cache them.
+				// CelestialBody { PResource Resources }
+				// PResource { PResource.SurfaceResourceList SurfaceResources }
+				// PResource.SurfaceResourceList :  IEnumerable<PResource.SurfaceResource>
+				// PResource.SurfaceResource { Texture2D CreateTexture }
+				// Texture2D { EncodeToPNG() EncodeToJPG() }
+			}
+
+			return false;
+		}
+
 		/**
 		 * Returns true if the given IPAddress is in a private or local address range.
 		 */
