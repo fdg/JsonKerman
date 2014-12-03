@@ -196,6 +196,7 @@ namespace JsonKerman
 
 		// Note: This was going to be for retrieving textures of the surface of the current body.
 		// Might not do this after all.
+		/*
 		private bool CheckCacheFile(string path) {
 			if (KSP.IO.File.Exists<JsonKerman>(path)) {
 				return true;
@@ -206,7 +207,7 @@ namespace JsonKerman
 			if (parts.Count < 1) {
 				return false;
 			}
-			if (parts[0] == 'celestialbody') {
+			if (parts[0] == "celestialbody") {
 				if (parts.Count < 2) {
 					return false;
 				}
@@ -223,6 +224,7 @@ namespace JsonKerman
 
 			return false;
 		}
+		*/
 
 		/**
 		 * Returns true if the given IPAddress is in a private or local address range.

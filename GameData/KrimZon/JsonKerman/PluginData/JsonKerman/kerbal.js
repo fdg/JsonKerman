@@ -48,16 +48,17 @@ function Kerbal() {
 		if (!this.data.hasOwnProperty('currentScene')) {
 			return '';
 		}
-		// TODO: This list is incomplete.
 		switch (this.data['currentScene']) {
 			case 'kspsplashscreen': return 'Loading';
+			case 'ksploading':      return 'Loading';
 			case 'kspMainMenu':     return 'Main Menu';
 			case 'kspsettings':     return 'Settings';
 			case 'spaceCenter':     return 'Space Center';
 			case 'editor':          return 'Vehicle Assembly Building';
-			case 'planeEditor':     return 'Spaceplane Hangar';
-			case 'trackingStation': return 'Tracking Station';
 			case 'pFlight2':        return 'In Flight';
+			case 'trackingStation': return 'Tracking Station';
+			case 'planeEditor':     return 'Spaceplane Hangar';
+			case 'PartSetupScene':  return 'Unknown';
 		}
 		return 'Unknown';
 	};
