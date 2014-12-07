@@ -112,7 +112,13 @@ namespace JsonKerman
 			}
 			json.EndObject();
 
-			// TODO: We can get info on all celestial bodies.
+			json.StartObject("celestialBodies");
+			for (int i = 0; i < FlightGlobals.Bodies.Count; i += 1) {
+				json.StartObject(i.ToString());
+				BuildCelestialBody(json, FlightGlobals.Bodies[i]);
+				json.EndObject();
+			}
+			json.EndObject();
 		}
 
 		private void BuildVessel(JsonBuilder json, Vessel vessel, BuildType buildType = BuildType.BUILD_FULL)
@@ -222,6 +228,14 @@ namespace JsonKerman
 			{
 				// TODO: Its full information.
 			}
+		}
+
+		private void BuildTransform(JsonBuilder json, Transform transform)
+		{
+			json.AddValue("position", transform.position);
+			json.AddValue("forward", transform.forward);
+			json.AddValue("right", transform.right);
+			json.AddValue("up", transform.up);
 		}
 	}
 }

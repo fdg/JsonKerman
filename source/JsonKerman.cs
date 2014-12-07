@@ -120,6 +120,8 @@ namespace JsonKerman
 		 */
 		private WebServer.Response SendResponse(HttpListenerRequest request)
 		{
+			// Note that this happens in another thread at the moment, so without structural changes we can only read data.
+
 			Debug.Log("KrimZon JsonKerman " + request.RemoteEndPoint.Address.ToString() + " " + request.HttpMethod + " " + request.Url.ToString());
 
 			// For security we limit only to requests from private address spaces by default.
