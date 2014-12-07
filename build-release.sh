@@ -36,7 +36,7 @@ git clone "${repo}" "${folder}"
 
 # Switch to the tag.
 cd "${folder}"
-if git show-ref --tags | egrep -q "refs/tags/${folder}$"
+if git show-ref --tags | egrep -q "refs/tags/${filename}$"
 then
 	git checkout "tags/${filename}"
 else
