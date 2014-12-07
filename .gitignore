@@ -10,3 +10,6 @@ GameData/KrimZon/JsonKerman/*.mdb
 
 # Ignore the built package
 JsonKerman.zip
+
+# Ignore the release building directory.
+release/*
