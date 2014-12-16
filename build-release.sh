@@ -36,6 +36,7 @@ mkdir "${folder}"
 git clone "${repo}" "${folder}"
 
 # Symlink the references.
+rm -rf "release/${filename}/externalReferences"
 ln -s "../../externalReferences" "release/${filename}/externalReferences"
 
 # Switch to the tag.
@@ -49,7 +50,7 @@ else
 fi
 
 # Build the project.
-mdtool build -c Release "source/${project}.csproj"
+mdtool build -c:Release "source/${project}.csproj"
 
 # Create the package.
 ./package.sh
