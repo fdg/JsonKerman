@@ -34,7 +34,7 @@ namespace JsonKerman
 {
 	/**
 	 * The main object launches a webserver for the duration of the game.
-	 * For each request we'll query the gamestate (or cache things) and 
+	 * For each request we'll query the gamestate (or cache things) and serve it as json.
 	 */
 	[KSPAddon(KSPAddon.Startup.EveryScene, false)]
 	public class JsonKerman : MonoBehaviour
