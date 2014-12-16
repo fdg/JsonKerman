@@ -1,10 +1,18 @@
 -------------------------------------------------------------------------------
-
                             J s o n   K e r m a n
-                                                    KrimZon <krimzon@gmail.com>
+-------------------------------------------------------------------------------
+
+Json Kerman is an external web interface to Kerbal Space program, allowing
+(among other things) players to use other displays and devices to show extra
+information relating to their current game.
+The end goal is an interactive display kind of like RasterPropMonitor but
+running on a tablet.
+
 -------------------------------------------------------------------------------
 
 For user instructions, see Gamedata/KrimZon/README-JsonKerman.txt
+
+-------------------------------------------------------------------------------
 
 The project is set up to look for Assembly-CSharp.dll and UnityEngine.dll in
 the externalReferences directory. This helps the automated build script.
@@ -14,3 +22,5 @@ I know it seems redundant to re-download the whole project just to build it,
 but this makes it easy for me to guarantee that the released assembly
 corresponds exactly to a tag which has been committed to the repository on
 github.
+
+-------------------------------------------------------------------------------
