@@ -13,3 +13,7 @@ JsonKerman.zip
 
 # Ignore the release building directory.
 release/*
+
+# Ignore the external references that we can't copy.
+# They're copied here so the build release tool can symlink to it.
+externalReferences/*.dll

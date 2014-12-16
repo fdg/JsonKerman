@@ -10,6 +10,7 @@
 
 tag=$1
 repo="https://github.com/KrimZon/JsonKerman.git"
+project="JsonKerman"
 package="JsonKerman"
 package_ext="zip"
 
@@ -34,6 +35,9 @@ folder="release/${filename}"
 mkdir "${folder}"
 git clone "${repo}" "${folder}"
 
+# Symlink the references.
+ln -s "../../externalReferences" "release/${filename}/externalReferences"
+
 # Switch to the tag.
 cd "${folder}"
 if git show-ref --tags | egrep -q "refs/tags/${filename}$"
@@ -43,6 +47,9 @@ else
 	echo "The tag does not exist"
 	exit
 fi
+
+# Build the project.
+mdtool build -c Release "source/${project}.csproj"
 
 # Create the package.
 ./package.sh

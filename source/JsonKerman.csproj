@@ -30,13 +30,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Apps\KerbalSpaceProgram\KSP_025\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\externalReferences\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Apps\KerbalSpaceProgram\KSP_025\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\externalReferences\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
