@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+
+                            J s o n   K e r m a n
+                                                    KrimZon <krimzon@gmail.com>
+-------------------------------------------------------------------------------
+
+For user instructions, see Gamedata/KrimZon/README-JsonKerman.txt
+
+The project is set up to look for Assembly-CSharp.dll and UnityEngine.dll in
+the externalReferences directory. This helps the automated build script.
+
+The build script is invoked on linux by running ./build-release.sh
+I know it seems redundant to re-download the whole project just to build it,
+but this makes it easy for me to guarantee that the released assembly
+corresponds exactly to a tag which has been committed to the repository on
+github.
