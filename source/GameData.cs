@@ -48,7 +48,7 @@ namespace JsonKerman
 
 			// If we can get hold of an instance of Game, then we can look at Game.UniversalTime.
 
-			json.AddValue("currentScene", GameInfo.GetSceneName(HighLogic.LoadedScene));
+			json.AddValue("currentScene", GetSceneName(HighLogic.LoadedScene));
 			json.AddValue("isEditor", HighLogic.LoadedSceneIsEditor);
 			json.AddValue("isFlight", HighLogic.LoadedSceneIsFlight);
 
@@ -70,6 +70,34 @@ namespace JsonKerman
 			}
 
 			return json.ToString();
+		}
+
+		private object GetSceneName(GameScenes gameScene)
+		{
+			switch (gameScene)
+			{
+				case GameScenes.LOADING:
+					return "kspsplashscreen";
+				case GameScenes.LOADINGBUFFER:
+					return "ksploading";
+				case GameScenes.MAINMENU:
+					return "kspMainMenu";
+				case GameScenes.SETTINGS:
+					return "kspsettings";
+				case GameScenes.CREDITS:
+					return "credits";
+				case GameScenes.SPACECENTER:
+					return "spaceCenter";
+				case GameScenes.EDITOR:
+					return "editor";
+				case GameScenes.FLIGHT:
+					return "pFlight2";
+				case GameScenes.TRACKSTATION:
+					return "trackingStation";
+				case GameScenes.PSYSTEM:
+					return "PartSetupScene";
+			}
+			return "unknown";
 		}
 
 		private void BuildGame(JsonBuilder json, Game game)
